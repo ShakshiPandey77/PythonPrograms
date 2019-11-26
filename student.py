@@ -1,0 +1,60 @@
+import sqlite3
+conn=sqlite3.connect("student.db")
+def create():
+    print("Opened database successfully")
+    print("Table creation:")
+    conn.execute("""CREATE TABLE stud(ID INT PRIMARY KEY NOT NULL,
+                 NAME TEXT NOT NULL,
+                 SEM INT NOT NULL,
+                 DEPT CHAR(25));""")
+    print("Table created successfully")
+def insert():
+    print("Inserting student information:")
+    conn.execute("INSERT INTO stud(ID,NAME,SEM,DEPT)VALUES(1,'Raghavendra',5,'CSE')")
+    conn.execute("INSERT INTO stud(ID,NAME,SEM,DEPT)VALUES(2,'Obed',6,'ECE')")
+    conn.execute("INSERT INTO stud(ID,NAME,SEM,DEPT)VALUES(3,'Niranjan',5,'EEE')")
+    conn.execute("INSERT INTO stud(ID,NAME,SEM,DEPT)VALUES(4,'Sanath',4,'MECH')")
+    conn.commit()
+    print("Values inserted successfully...!!","\t")
+def display():
+    print("Displays student information:")
+    cursor=conn.execute("SELECT * from stud")
+    print("Table contents are:")
+    for row in cursor:
+        print("ID=",row[0])
+        print("NAME=",row[1])
+        print("SEM=",row[2])
+        print("DEPT=",row[3])
+        print("---------------------------------------")
+    conn.commit()
+def query():
+    print("Retrives data of specific student")
+    cursor=conn.execute("SELECT * from stud where ID=1")
+    conn.commit()
+    print("Query result:")
+    res=cursor.fetchall()
+    print(res)
+def update():
+    print("Updating student information:")
+    conn.execute("UPDATE stud SET SEM=3 where ID=3")
+    conn.commit()
+    print("Upadted table contents are:")
+    cursor=conn.execute("SELECT * from stud")
+    res=cursor.fetchall()
+    print(res)
+    print("Updated successfully")
+def delete():
+    print("Deleting particular student data:")
+    conn.execute("DELETE from stud where ID=4")
+    conn.commit()
+    cursor=conn.execute("SELECT * from stud")
+    print("The table contents after deletion are:")
+    res=cursor.fetchall()
+    print(res)
+    print("Deleted successfully")
+create()
+insert()
+display()
+query()
+update()
+delete()
